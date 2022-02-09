@@ -48,13 +48,6 @@ public class ChunkRedstoneListener extends LazyListener {
             event.setCanceled(true);
             event.getWorld().setBlockToAir(event.getPos());
         }
-
-        if (data.getLastValue() == 0) {
-            if ((System.currentTimeMillis() - data.getLastUpdate()) <= TimeUnit.SECONDS.toMillis(2)) {
-                event.setCanceled(true);
-                event.getWorld().setBlockToAir(event.getPos());
-            }
-        }
     }
 
     private ChunkRedstoneData getData(ChunkPos pos) {
