@@ -51,4 +51,11 @@ public class EnvyAntiLag {
 
     }
 
+    public static EnvyAntiLag getInstance() {
+        return instance;
+    }
+
+    public ChunkRedstoneConfig getConfig() {
+        return this.config;
+    }
 }

@@ -1,5 +1,6 @@
 package com.envyful.anti.lag.listener;
 
+import com.envyful.anti.lag.EnvyAntiLag;
 import com.envyful.api.forge.listener.LazyListener;
 import com.google.common.collect.Maps;
 import net.minecraft.block.BlockRedstoneWire;
@@ -36,7 +37,7 @@ public class ChunkRedstoneListener extends LazyListener {
             return;
         }
 
-        if ((System.currentTimeMillis() - data.getLastReset()) >= TimeUnit.SECONDS.toMillis(10)) {
+        if ((System.currentTimeMillis() - data.getLastReset()) >= TimeUnit.SECONDS.toMillis(EnvyAntiLag.getInstance().getConfig().getResetTimeSeconds())) {
             data.setLastReset(System.currentTimeMillis());
             data.setUpdates(0);
             return;
@@ -44,9 +45,13 @@ public class ChunkRedstoneListener extends LazyListener {
 
         data.setUpdates(data.getUpdates() + 1);
 
-        if (data.getUpdates() > 30) {
+        if (data.getUpdates() > EnvyAntiLag.getInstance().getConfig().getRedstoneEventsBeforeBreak()) {
             event.setCanceled(true);
             event.getWorld().setBlockToAir(event.getPos());
+
+            if (EnvyAntiLag.getInstance().getConfig().isAlertChunk()) {
+                //TODO:
+            }
         }
     }
 
