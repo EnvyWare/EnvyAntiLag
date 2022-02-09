@@ -22,7 +22,7 @@ import java.io.IOException;
 public class EnvyAntiLag {
 
     public static final String MOD_ID = "envyantilag";
-    public static final String MOD_VERSION = "0.0.1";
+    public static final String MOD_VERSION = "1.0.0";
     public static final String MOD_NAME = "EnvyAntiLag";
 
     @Mod.Instance(MOD_ID)
