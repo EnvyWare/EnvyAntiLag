@@ -11,6 +11,7 @@ public class ChunkRedstoneConfig extends AbstractYamlConfig {
     private long resetTimeSeconds = 10;
     private int redstoneEventsBeforeBreak = 60;
     private boolean alertChunk = true;
+    private String adminAlertPermission = "envyware.anti.lag.alert";
 
     public ChunkRedstoneConfig() {
         super();
@@ -26,5 +27,9 @@ public class ChunkRedstoneConfig extends AbstractYamlConfig {
 
     public boolean isAlertChunk() {
         return this.alertChunk;
+    }
+
+    public String getAdminAlertPermission() {
+        return this.adminAlertPermission;
     }
 }

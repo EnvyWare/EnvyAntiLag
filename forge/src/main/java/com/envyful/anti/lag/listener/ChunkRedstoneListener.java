@@ -1,16 +1,25 @@
 package com.envyful.anti.lag.listener;
 
 import com.envyful.anti.lag.EnvyAntiLag;
+import com.envyful.api.concurrency.UtilConcurrency;
+import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.listener.LazyListener;
+import com.envyful.api.forge.player.util.UtilPlayer;
 import com.google.common.collect.Maps;
 import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class ChunkRedstoneListener extends LazyListener {
@@ -29,7 +38,8 @@ public class ChunkRedstoneListener extends LazyListener {
             return;
         }
 
-        ChunkRedstoneData data = this.getData(new ChunkPos(event.getPos()));
+        ChunkPos chunkPos = new ChunkPos(event.getPos());
+        ChunkRedstoneData data = this.getData(chunkPos);
         int power = blockState.getValue(BlockRedstoneWire.POWER);
 
         if (power != 15) {
@@ -49,9 +59,42 @@ public class ChunkRedstoneListener extends LazyListener {
             event.setCanceled(true);
             event.getWorld().setBlockToAir(event.getPos());
 
-            if (EnvyAntiLag.getInstance().getConfig().isAlertChunk()) {
-                //TODO:
-            }
+            UtilConcurrency.runAsync(() -> {
+                if (EnvyAntiLag.getInstance().getConfig().isAlertChunk()) {
+                    for (EntityPlayer playerEntity :
+                            FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+                        if (!Objects.equals(playerEntity.world, event.getWorld())) {
+                            continue;
+                        }
+
+                        if (playerEntity.chunkCoordX == chunkPos.x && playerEntity.chunkCoordZ == chunkPos.z) {
+                            for (String s : EnvyAntiLag.getInstance().getLocale().getLagMachineFound()) {
+                                playerEntity.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&', s)));
+                            }
+                        }
+                    }
+                }
+
+                for (EntityPlayerMP player : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+                    if (EnvyAntiLag.getInstance().getConfig().isAlertChunk()) {
+                        if (!Objects.equals(player.world, event.getWorld())) {
+                            continue;
+                        }
+                        if (player.chunkCoordX == chunkPos.x && player.chunkCoordZ == chunkPos.z) {
+                            for (String s : EnvyAntiLag.getInstance().getLocale().getLagMachineFound()) {
+                                player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&', s)));
+                            }
+                        }
+                    }
+
+                    if (UtilPlayer.hasPermission(player,
+                                                 EnvyAntiLag.getInstance().getConfig().getAdminAlertPermission())) {
+                        for (String s : EnvyAntiLag.getInstance().getLocale().getAdminAlert()) {
+                            player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&', s)));
+                        }
+                    }
+                }
+            });
         }
     }
 
