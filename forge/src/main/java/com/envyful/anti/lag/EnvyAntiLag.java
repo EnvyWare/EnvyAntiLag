@@ -2,6 +2,7 @@ package com.envyful.anti.lag;
 
 import com.envyful.anti.lag.command.AntiLagCommand;
 import com.envyful.anti.lag.config.ChunkRedstoneConfig;
+import com.envyful.anti.lag.config.ChunkRedstoneLocale;
 import com.envyful.anti.lag.listener.ChunkRedstoneListener;
 import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.forge.command.ForgeCommandFactory;
@@ -31,6 +32,7 @@ public class EnvyAntiLag {
     private ForgeCommandFactory commandFactory = new ForgeCommandFactory();
 
     private ChunkRedstoneConfig config;
+    private ChunkRedstoneLocale locale;
 
     @Mod.EventHandler
     public void onInit(FMLInitializationEvent event) {
@@ -42,6 +44,7 @@ public class EnvyAntiLag {
     public void reloadConfig() {
         try {
             this.config = YamlConfigFactory.getInstance(ChunkRedstoneConfig.class);
+            this.locale = YamlConfigFactory.getInstance(ChunkRedstoneLocale.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,5 +61,9 @@ public class EnvyAntiLag {
 
     public ChunkRedstoneConfig getConfig() {
         return this.config;
+    }
+
+    public ChunkRedstoneLocale getLocale() {
+        return this.locale;
     }
 }
