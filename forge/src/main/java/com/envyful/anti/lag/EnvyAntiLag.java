@@ -1,5 +1,6 @@
 package com.envyful.anti.lag;
 
+import com.envyful.anti.lag.listener.ChunkRedstoneListener;
 import com.envyful.api.forge.command.ForgeCommandFactory;
 import com.envyful.api.forge.player.ForgePlayerManager;
 import net.minecraftforge.fml.common.Mod;
@@ -26,7 +27,7 @@ public class EnvyAntiLag {
 
     @Mod.EventHandler
     public void onInit(FMLInitializationEvent event) {
-
+        new ChunkRedstoneListener();
     }
 
     @Mod.EventHandler
