@@ -1,5 +1,6 @@
 package com.envyful.anti.lag;
 
+import com.envyful.anti.lag.command.AntiLagCommand;
 import com.envyful.anti.lag.config.ChunkRedstoneConfig;
 import com.envyful.anti.lag.listener.ChunkRedstoneListener;
 import com.envyful.api.config.yaml.YamlConfigFactory;
@@ -48,7 +49,7 @@ public class EnvyAntiLag {
 
     @Mod.EventHandler
     public void onServerStarting(FMLServerStartingEvent event) {
-
+        this.commandFactory.registerCommand(event.getServer(), new AntiLagCommand());
     }
 
     public static EnvyAntiLag getInstance() {
