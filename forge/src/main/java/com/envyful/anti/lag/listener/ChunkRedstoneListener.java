@@ -12,12 +12,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.awt.*;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -90,7 +94,13 @@ public class ChunkRedstoneListener extends LazyListener {
                     if (UtilPlayer.hasPermission(player,
                                                  EnvyAntiLag.getInstance().getConfig().getAdminAlertPermission())) {
                         for (String s : EnvyAntiLag.getInstance().getLocale().getAdminAlert()) {
-                            player.sendMessage(new TextComponentString(UtilChatColour.translateColourCodes('&', s)));
+                            ITextComponent component =
+                                    new TextComponentString(UtilChatColour.translateColourCodes('&', s
+                                    .replace("%chunk%", chunkPos.x + ", " + chunkPos.z)));
+
+                            component.setStyle(new Style().setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
+                                                                                        "/minecraft:tp " + player.getName() + " " + event.getPos().getX() + " " + event.getPos().getY() + " " + event.getPos().getZ())));
+                            player.sendMessage(component);
                         }
                     }
                 }
