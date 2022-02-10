@@ -60,8 +60,10 @@ public class ChunkRedstoneListener extends LazyListener {
         data.setUpdates(data.getUpdates() + 1);
 
         if (data.getUpdates() > EnvyAntiLag.getInstance().getConfig().getRedstoneEventsBeforeBreak()) {
-            event.setCanceled(true);
-            event.getWorld().setBlockToAir(event.getPos());
+            if (EnvyAntiLag.getInstance().getConfig().isRemoveRedstone()) {
+                event.setCanceled(true);
+                event.getWorld().setBlockToAir(event.getPos());
+            }
 
             UtilConcurrency.runAsync(() -> {
                 if (EnvyAntiLag.getInstance().getConfig().isAlertChunk()) {
