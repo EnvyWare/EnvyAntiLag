@@ -7,6 +7,7 @@ import com.envyful.lag.command.AntiLagCommand;
 import com.envyful.lag.config.ChunkRedstoneConfig;
 import com.envyful.lag.config.ChunkRedstoneLocale;
 import com.envyful.lag.listener.ChunkRedstoneListener;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -26,6 +27,10 @@ public class EnvyAntiLag {
 
     private ChunkRedstoneConfig config;
     private ChunkRedstoneLocale locale;
+
+    public EnvyAntiLag() {
+        MinecraftForge.EVENT_BUS.register(this);
+    }
 
     @SubscribeEvent
     public void onInit(FMLServerStartingEvent event) {
