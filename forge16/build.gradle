@@ -31,10 +31,6 @@ repositories {
     }
 
     maven { url 'https://jitpack.io' }
-
-    flatDir {
-        dirs '../../Libraries/'
-    }
 }
 
 dependencies {
@@ -42,8 +38,8 @@ dependencies {
 
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
     shadow group: 'org.spongepowered', name: 'configurate-hocon', version: '4.0.0'
-    shadow group: 'com.github.EnvyWare.API', name: 'commons', version: '2.0.0'
-    shadow (group: 'com.github.EnvyWare.API', name: 'forge16', version: '2.0.0') {
+    shadow group: 'com.github.EnvyWare.API', name: 'commons', version: '3.0.3'
+    shadow (group: 'com.github.EnvyWare.API', name: 'forge16', version: '3.0.3') {
         transitive = false
     }
 }

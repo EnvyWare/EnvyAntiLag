@@ -5,15 +5,15 @@ modLoader="javafml"
 loaderVersion="[36,)"
 # The license for your mod. This is mandatory and allows for easier comprehension of your redistributive properties.
 # Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
-license="All Rights Reserved"
+license="MIT"
 # A URL to refer people to when problems occur with this mod
-issueTrackerURL="https://github.com/Daniel-Forge-Development/ForgeMenus/issues"
+issueTrackerURL="https://github.com/EnvyWare/EnvyAntiLag/issues"
 # If the mods defined in this file should show as separate resource packs
 showAsResourcePack=false
 
 [[mods]]
   modId="envyantilag"
-  version="2.0.3"
+  version="1.0.2"
   displayName="EnvyAntiLag"
   displayURL="https://discord.gg/7vqgtrjDGw"
   credits="Envyful"
@@ -22,14 +22,14 @@ showAsResourcePack=false
   Anti redstone lag for Forge
   '''
 
-  [[dependencies.menus]]
+  [[dependencies.envyantilag]]
     modId="forge"
     mandatory=true
     versionRange="[36,)"
     ordering="NONE"
     side="BOTH"
 
-  [[dependencies.menus]]
+  [[dependencies.envyantilag]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.16.5,1.17)"
